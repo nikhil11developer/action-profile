@@ -1,4 +1,5 @@
 name: Build Job
+
 on:
   push:
     branches:
@@ -11,14 +12,20 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v4
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Maven build
-        uses: mvn install
+        run: mvn clean install -DskipTests
 
       - name: Upload Build Artifact
         uses: actions/upload-artifact@v4
         with:
           name: vprofile-app
-          path: target/*.war  
+          path: target/*.war
 
   Testing:
     runs-on: ubuntu-latest
@@ -27,8 +34,14 @@ jobs:
       - name: Code checkout
         uses: actions/checkout@v4
 
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: 'temurin'
+          java-version: '17'
+
       - name: Run tests on main branch
-        uses: mvn test
+        run: mvn test
 
       - name: Checkstyle
-        uses: mvn checkstyle:checkstyle  
+        run: mvn checkstyle:checkstyle

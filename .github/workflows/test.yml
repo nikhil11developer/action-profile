@@ -1,8 +1,5 @@
 name: Build Job
-<<<<<<< HEAD
-=======
 
->>>>>>> 37dc8f8a59a8a285caab611f8339784c31ee8e42
 on:
   push:
     branches:
@@ -14,43 +11,37 @@ jobs:
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
-      - name: Maven build
-        uses: mvn install
 
-<<<<<<< HEAD
-=======
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
       - name: Maven build
-        run: mvn install -B
+        run: mvn clean install -DskipTests
 
->>>>>>> 37dc8f8a59a8a285caab611f8339784c31ee8e42
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vprofile-app
+          path: target/*.war
+
   Testing:
     runs-on: ubuntu-latest
     needs: Build
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
-<<<<<<< HEAD
-      - name: Run tests on main branch
-        uses: mvn test
-      - name: Checkstyle
-        uses: mvn checkstyle:checkstyle  
-=======
 
-      - name: Set up JDK 17
+      - name: Set up Java
         uses: actions/setup-java@v4
         with:
           distribution: 'temurin'
           java-version: '17'
 
       - name: Run tests on main branch
-        run: mvn test -B
+        run: mvn test
 
       - name: Checkstyle
         run: mvn checkstyle:checkstyle
->>>>>>> 37dc8f8a59a8a285caab611f8339784c31ee8e42

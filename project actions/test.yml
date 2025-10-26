@@ -10,8 +10,15 @@ jobs:
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
+
       - name: Maven build
         uses: mvn install
+
+      - name: Upload Build Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: vprofile-app
+          path: target/*.war  
 
   Testing:
     runs-on: ubuntu-latest
@@ -19,7 +26,9 @@ jobs:
     steps:
       - name: Code checkout
         uses: actions/checkout@v4
+
       - name: Run tests on main branch
         uses: mvn test
+        
       - name: Checkstyle
         uses: mvn checkstyle:checkstyle  

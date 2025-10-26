@@ -1,7 +1,7 @@
-name: Download Build Artifact
+name: Download vprofile-app Artifact
 
 on:
-  workflow_dispatch:  # Allows you to run this manually from GitHub Actions UI
+  workflow_dispatch:  # Trigger manually from GitHub Actions UI
 
 jobs:
   Download:
@@ -11,17 +11,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Download Build Artifact
+      - name: Download vprofile-app artifact
         uses: actions/download-artifact@v4
         with:
-          name: vprofile-app   # must match the name used in the upload step
-          path: ./artifact     # location to save the downloaded file(s)
+          name: vprofile-app   # Must match the name from your Build workflow
+          path: artifact       # Folder where the WAR file will be saved
 
       - name: List downloaded files
-        run: ls -l ./artifact
+        run: ls -l artifact
 
-      # Optional: example if you want to deploy or inspect the .war
-      - name: Display WAR file name
+      - name: Show WAR file name
         run: |
-          echo "Downloaded WAR file:"
-          find ./artifact -name "*.war"
+          echo "Downloaded WAR file(s):"
+          find artifact -name "*.war"
